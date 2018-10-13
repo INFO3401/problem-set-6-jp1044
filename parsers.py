@@ -24,7 +24,7 @@ def countWordsUnstructured(filename):
             words[word] = 1
 
     #print(words)
-
+    file.close()
     return words
 # Test your part 1 code below.
 word_dict = countWordsUnstructured("state-of-the-union-corpus-1989-2017/Bush_1989.txt")
@@ -39,9 +39,10 @@ def generateSimpleCSV(targetfile, wordCounts):
     # Inputs: A word count list and a name for the target file
     # Outputs: A new CSV file named targetfile containing the wordcount data
     file = open(targetfile, "w")
-    file.write("Word, Count")
+    file.write("Word,Count\n")
     for word, count in wordCounts.items():
         file.write(word + "," + str(count) + "\n")
+    file.close()
     return
 
     # Test your part 2 code below
@@ -76,7 +77,7 @@ def generateDirectoryCSV(wordCounts, targetfile):
     # Inputs: A word count dictionary and a name for the target file
     # Outputs: A CSV file named targetfile containing the word count data
     outfile = open(targetfile, "w")
-    outfile.write("Filename, Word, Count\n")
+    outfile.write("Filename,Word,Count\n")
     for wordfile, dict in wordCounts.items():
         for word, count in dict.items():
             outfile.write(wordfile + "," + word + "," + str(count) + "\n")
@@ -118,6 +119,7 @@ def searchCSV(csvfile, word):
             if line[1] == word and int(line[2]) > int(largest_count):
                 largest_count = line[2]
                 largest_count_file = line[0]
+        csv_file.close()
     print("Data points processed:" + str(lines_processed))
     return largest_count_file
 
@@ -131,11 +133,12 @@ def searchJSON(JSONfile, word):
     datapoints_processed = 0
     with open(JSONfile) as json_file:
         data = json.load(json_file)
-    for file in data:
-        datapoints_processed += 1
-        if data[file][word] > largest_count:
-            largest_count = data[file][word]
-            largest_count_file = file
+        for file in data:
+            datapoints_processed += 1
+            if data[file][word] > largest_count:
+                largest_count = data[file][word]
+                largest_count_file = file
+        json_file.close()
     print("Data points processed: " + str(datapoints_processed))
     return largest_count_file
 

@@ -1,0 +1,18 @@
+Database schema:
+
+word_counts table:
+    text filename,
+    text word,
+    real count
+
+presidents_information table:
+    real index,
+    real number,
+    real start,
+    real end,
+    text president_name
+    text prior_occupation
+    text party
+    text vice_president
+
+Tables can be joined on the presidents name or the years that the president was in office.

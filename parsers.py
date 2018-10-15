@@ -5,6 +5,7 @@ import os
 import string
 import csv
 import json
+import sqlite3
 
 def countWordsUnstructured(filename):
     # This function should count the words in an unstructured text document
@@ -116,7 +117,7 @@ def searchCSV(csvfile, word):
         file = csv.reader(csv_file)
         for line in file:
             lines_processed += 1
-            if line[1] == word and int(line[2]) > int(largest_count):
+            if line[1] == word and int(line[2]) > int(largest_count): # if the 2nd value in the line is the word we're looking for and larger than the current count
                 largest_count = line[2]
                 largest_count_file = line[0]
         csv_file.close()
@@ -148,3 +149,17 @@ print(searchJSON("test_json.json", "the"))
 
 # +1 bonus point for figuring out how many datapoints you had to process to
 # compute this value
+
+def create_database(databaseName):
+    #set up a connection to the database
+    conn = sqlite3.connect(databaseName)
+    c = conn.cursor()
+
+    #Ask the connection to execute a SQL statement
+    c.execute('''CREATE TABLE word_counts (filename text, word text, count real)''')
+    c.execute('''CREATE TABLE presidents_information (inde,real number,real start,real end,text president_name,text prior_occupation,text party, text vice_president)''')
+    c.commit()
+    c.close()
+
+
+create_database('presidents.db')
